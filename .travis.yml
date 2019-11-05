@@ -3,18 +3,18 @@ services:
   - docker
 
 before_install:
-  - docker build -t pgabala/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t calamitys7/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true pgabala/react-test npm test
+  - docker run -e CI=true calamitys7/react-test npm test
 
 after_success:
-  - docker build -t pgabala/multi-client ./client
-  - docker build -t pgabala/multi-nginx ./nginx
-  - docker build -t pgabala/multi-server ./server
-  - docker build -t pgabala/multi-worker ./worker
+  - docker build -t calamitys7/multi-client ./client
+  - docker build -t calamitys7/multi-nginx ./nginx
+  - docker build -t calamitys7/multi-server ./server
+  - docker build -t calamitys7/multi-worker ./worker
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  - docker push pgabala/multi-client
-  - docker push pgabala/multi-server
-  - docker push pgabala/multi-worker
-  - docker push pgabala/multi-nginx 
+  - docker push calamitys7/multi-client
+  - docker push calamitys7/multi-server
+  - docker push calamitys7/multi-worker
+  - docker push calamitys7/multi-nginx 
