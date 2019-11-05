@@ -1,0 +1,20 @@
+sudo: require
+services:
+  - docker
+
+before_install:
+  - docker build -t pgabala/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true USERNAME/react-test npm test
+
+after_success:
+  - docker build -t pgabala/multi-client ./client
+  - docker build -t pgabala/multi-nginx ./nginx
+  - docker build -t pgabala/multi-server ./server
+  - docker build -t pgabala/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push pgabala/multi-client
+  - docker push pgabala/multi-server
+  - docker push pgabala/multi-worker
+  - docker push pgabala/multi-nginx 
